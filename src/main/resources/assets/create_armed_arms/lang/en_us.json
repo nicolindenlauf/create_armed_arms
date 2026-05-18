@@ -1,0 +1,6 @@
+{
+  "config.create_armed_arms.ranged_targeting_range": "Ranged Targeting Range",
+  "message.create_armed_arms.arm_disarmed": "Mechanical arm disarmed.",
+  "message.create_armed_arms.arm_already_armed": "This mechanical arm is already armed.",
+  "message.create_armed_arms.not_enough_space": "No room to return the equipped weapon."
+}

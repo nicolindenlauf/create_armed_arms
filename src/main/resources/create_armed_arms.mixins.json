@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "com.niconator.createarmedarms.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ArmBlockEntityAccessor",
+    "ArmAngleTargetAccessor",
+    "ArmBlockEntityMixin",
+    "KineticBlockEntityMixin"
+  ],
+  "client": [
+    "ArmRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
