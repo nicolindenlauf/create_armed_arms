@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import javax.annotation.Nonnull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -183,18 +184,18 @@ public class ArmBlockEntityMixin implements ArmedArmState {
     }
 
     @Inject(method = "write", at = @At("TAIL"))
-    private void createArmedArms$write(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket,
+    private void createArmedArms$write(CompoundTag tag, @Nonnull HolderLookup.Provider registries, boolean clientPacket,
             CallbackInfo ci) {
         createArmedArms$writeArmoryTag(tag, registries);
     }
 
     @Inject(method = "writeSafe", at = @At("TAIL"))
-    private void createArmedArms$writeSafe(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
+    private void createArmedArms$writeSafe(CompoundTag tag, @Nonnull HolderLookup.Provider registries, CallbackInfo ci) {
         createArmedArms$writeArmoryTag(tag, registries);
     }
 
     @Unique
-    private void createArmedArms$writeArmoryTag(CompoundTag tag, HolderLookup.Provider registries) {
+    private void createArmedArms$writeArmoryTag(CompoundTag tag, @Nonnull HolderLookup.Provider registries) {
         CompoundTag armoryTag = new CompoundTag();
         ItemStack weapon = createArmedArms$weapon.isEmpty() && CreateArmedArms.isArmWeapon(heldItem)
                 ? heldItem.copyWithCount(1)
@@ -214,26 +215,20 @@ public class ArmBlockEntityMixin implements ArmedArmState {
     }
 
     @Inject(method = "read", at = @At("TAIL"))
-    private void createArmedArms$read(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket,
+    private void createArmedArms$read(CompoundTag tag, @Nonnull HolderLookup.Provider registries, boolean clientPacket,
             CallbackInfo ci) {
-        String armoryTagName = tag.contains("CreateArmedArms", 10) ? "CreateArmedArms" : "MechanicalArmory";
-        if (tag.contains(armoryTagName, 10)) {
-            CompoundTag armoryTag = tag.getCompound(armoryTagName);
+        if (tag.contains("CreateArmedArms", 10)) {
+            CompoundTag armoryTag = tag.getCompound("CreateArmedArms");
             createArmedArms$weapon = ItemStack.parseOptional(registries, armoryTag.getCompound("Weapon"));
             createArmedArms$loadedAmmo = ItemStack.parseOptional(registries, armoryTag.getCompound("LoadedAmmo"));
             createArmedArms$drawTicks = armoryTag.getInt("DrawTicks");
-            createArmedArms$maxDrawTicks = armoryTag.contains("MaxDrawTicks") ? armoryTag.getInt("MaxDrawTicks")
-                    : createArmedArms$drawTicks;
+            createArmedArms$maxDrawTicks = armoryTag.getInt("MaxDrawTicks");
             createArmedArms$cooldownTicks = armoryTag.getInt("CooldownTicks");
             createArmedArms$meleeSwingTicks = armoryTag.getInt("MeleeSwingTicks");
-            createArmedArms$maxMeleeSwingTicks = armoryTag.contains("MaxMeleeSwingTicks")
-                    ? armoryTag.getInt("MaxMeleeSwingTicks")
-                    : createArmedArms$meleeSwingTicks;
-            createArmedArms$aimProgress = armoryTag.contains("AimProgress") ? armoryTag.getFloat("AimProgress") : 1.0F;
+            createArmedArms$maxMeleeSwingTicks = armoryTag.getInt("MaxMeleeSwingTicks");
+            createArmedArms$aimProgress = armoryTag.getFloat("AimProgress");
             createArmedArms$actionProgress = armoryTag.getFloat("ActionProgress");
-            createArmedArms$pendingInputIndex = armoryTag.contains("PendingInputIndex")
-                    ? armoryTag.getInt("PendingInputIndex")
-                    : -1;
+            createArmedArms$pendingInputIndex = armoryTag.getInt("PendingInputIndex");
             if (armoryTag.getBoolean("Armed") && createArmedArms$weapon.isEmpty()
                     && CreateArmedArms.isArmWeapon(heldItem)) {
                 createArmedArms$weapon = heldItem.copyWithCount(1);

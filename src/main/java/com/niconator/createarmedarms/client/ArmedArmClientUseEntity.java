@@ -8,6 +8,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -20,19 +21,19 @@ public class ArmedArmClientUseEntity extends LivingEntity {
         super(EntityType.ARMOR_STAND, level);
     }
 
-    public void configure(ItemStack stack, float drawProgress) {
+    public void configure(ItemStack stack, float useProgress) {
         renderedUseItem = stack;
         WeaponStats.RangedActionModel actionModel = WeaponStats.rangedActionModel(stack);
-        renderedUsingItem = drawProgress > 0.0F
+        renderedUsingItem = useProgress > 0.0F
                 && actionModel != null
                 && !(actionModel == WeaponStats.RangedActionModel.CHARGE_THEN_USE && WeaponStats.isPreCharged(stack));
 
         int elapsedTicks = 0;
         if (renderedUsingItem) {
             if (actionModel == WeaponStats.RangedActionModel.CHARGE_THEN_USE) {
-                elapsedTicks = Math.round(WeaponStats.chargeDuration(stack, this) * drawProgress);
+                elapsedTicks = Math.round(WeaponStats.chargeDuration(stack, this) * useProgress);
             } else {
-                elapsedTicks = Math.round(WeaponStats.defaultUseTicks(stack) * drawProgress);
+                elapsedTicks = Math.round(WeaponStats.defaultUseTicks(stack) * useProgress);
             }
         }
 
@@ -65,7 +66,7 @@ public class ArmedArmClientUseEntity extends LivingEntity {
     }
 
     @Override
-    public ItemStack getItemInHand(InteractionHand hand) {
+    public ItemStack getItemInHand(@Nonnull InteractionHand hand) {
         return hand == InteractionHand.MAIN_HAND ? renderedUseItem : ItemStack.EMPTY;
     }
 
@@ -75,12 +76,12 @@ public class ArmedArmClientUseEntity extends LivingEntity {
     }
 
     @Override
-    public ItemStack getItemBySlot(EquipmentSlot slot) {
+    public ItemStack getItemBySlot(@Nonnull EquipmentSlot slot) {
         return slot == EquipmentSlot.MAINHAND ? renderedUseItem : ItemStack.EMPTY;
     }
 
     @Override
-    public void setItemSlot(EquipmentSlot slot, ItemStack stack) {
+    public void setItemSlot(@Nonnull EquipmentSlot slot, @Nonnull ItemStack stack) {
     }
 
     @Override

@@ -12,6 +12,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
+import javax.annotation.Nullable;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,10 +28,11 @@ public final class FakePlayerCombatService {
         return FakePlayerFactory.get(level, ARMORY_PROFILE);
     }
 
-    public static FakePlayer prepareFakeShooter(ServerLevel level, ArmBlockEntity arm, ItemStack weapon, ItemStack ammo,
-            LivingEntity target) {
+    public static FakePlayer prepareFakeCombatPlayer(ServerLevel level, ArmBlockEntity arm, ItemStack weapon,
+            ItemStack ammo,
+            @Nullable LivingEntity target) {
         FakePlayer shooter = getSharedFakePlayer(level);
-        clearFakeShooter(shooter);
+        clearFakeCombatPlayer(shooter);
         Vec3 origin = target == null
                 ? TargetingService.turretOrigin(arm.getBlockPos())
                 : TargetingService.projectileOrigin(arm.getBlockPos(), weapon, target);
@@ -60,7 +62,7 @@ public final class FakePlayerCombatService {
         return shooter;
     }
 
-    public static void clearFakeShooter(FakePlayer shooter) {
+    public static void clearFakeCombatPlayer(FakePlayer shooter) {
         shooter.stopUsingItem();
         for (int slot = 0; slot < shooter.getInventory().getContainerSize(); slot++) {
             shooter.getInventory().setItem(slot, ItemStack.EMPTY);

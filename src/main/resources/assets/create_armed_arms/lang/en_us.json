@@ -1,6 +1,15 @@
 {
   "config.create_armed_arms.ranged_targeting_range": "Ranged Targeting Range",
+  "config.create_armed_arms.animation_base_rpm": "Animation Base RPM",
+  "config.create_armed_arms.weapon_stress_multiplier": "Weapon Stress Multiplier",
   "message.create_armed_arms.arm_disarmed": "Mechanical arm disarmed.",
   "message.create_armed_arms.arm_already_armed": "This mechanical arm is already armed.",
-  "message.create_armed_arms.not_enough_space": "No room to return the equipped weapon."
+  "message.create_armed_arms.not_enough_space": "No room to return the equipped weapon.",
+  "create_armed_arms.ponder.mechanical_arm_armed_arms.header": "Mechanical Arms as Weapon Arms",
+  "create_armed_arms.ponder.mechanical_arm_armed_arms.text_1": "Right-click the arm with a melee weapon to equip it",
+  "create_armed_arms.ponder.mechanical_arm_armed_arms.text_2": "Empty-hand right-click disarms and returns the equipped weapon",
+  "create_armed_arms.ponder.mechanical_arm_armed_arms.text_3": "Right-click the arm with a bow to equip ranged mode",
+  "create_armed_arms.ponder.mechanical_arm_armed_arms.text_4": "Provide arrows on a depot as input ammo source",
+  "create_armed_arms.ponder.mechanical_arm_armed_arms.text_5": "The arm consumes arrows from its input and fires at targets",
+  "create_armed_arms.ponder.mechanical_arm_armed_arms.text_6": "It grabs one arrow and fires once"
 }

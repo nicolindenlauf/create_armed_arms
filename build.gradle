@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.78'
+    id 'net.neoforged.moddev' version '2.0.141'
     id 'idea'
 }
 
@@ -128,10 +128,14 @@ tasks.withType(Test).configureEach {
     useJUnitPlatform()
 }
 
+def localMinecraftModsDir = '/home/nicol/minecraft/Instances/Vanilla+_Minecraft_1.21.1/mods'
+def hasLocalMinecraftModsDir = file(localMinecraftModsDir).isDirectory()
+
 tasks.register('copyJarToMinecraftInstance', Copy) {
     dependsOn tasks.named('jar')
     from(tasks.named('jar').flatMap { it.archiveFile })
-    into '/home/nicol/minecraft/Instances/Vanilla+_Minecraft_1.21.1/mods'
+    into localMinecraftModsDir
+    onlyIf { hasLocalMinecraftModsDir }
 }
 
 tasks.named('build') {

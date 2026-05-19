@@ -2,6 +2,7 @@ package com.niconator.createarmedarms;
 
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
+import javax.annotation.Nonnull;
 
 public final class ArmedArmItemHandlerView implements IItemHandler {
     private final ArmedArmState state;
@@ -38,7 +39,7 @@ public final class ArmedArmItemHandlerView implements IItemHandler {
     }
 
     @Override
-    public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+    public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
         return stack;
     }
 
@@ -53,7 +54,7 @@ public final class ArmedArmItemHandlerView implements IItemHandler {
     }
 
     @Override
-    public boolean isItemValid(int slot, ItemStack stack) {
+    public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
         return false;
     }
 }

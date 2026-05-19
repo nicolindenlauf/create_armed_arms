@@ -16,17 +16,17 @@ public class KineticBlockEntityMixin {
     protected float lastStressApplied;
 
     @Inject(method = "calculateStressApplied", at = @At("RETURN"), cancellable = true)
-    private void createArmedArms$doubleRangedArmStress(CallbackInfoReturnable<Float> cir) {
+    private void createArmedArms$scaleWeaponArmStress(CallbackInfoReturnable<Float> cir) {
         if (!((Object) this instanceof ArmBlockEntity arm)) {
             return;
         }
 
         ArmedArmState state = (ArmedArmState) arm;
-        if (!CreateArmedArms.isRangedWeapon(state.createArmedArms$getWeapon())) {
+        if (!CreateArmedArms.isArmWeapon(state.createArmedArms$getWeapon())) {
             return;
         }
 
-        float stress = cir.getReturnValueF() * 2.0F;
+        float stress = cir.getReturnValueF() * CreateArmedArms.weaponStressMultiplier();
         lastStressApplied = stress;
         cir.setReturnValue(stress);
     }

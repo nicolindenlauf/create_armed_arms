@@ -9,6 +9,7 @@ import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.tags.ItemTags;
 import net.neoforged.neoforge.common.Tags;
+import javax.annotation.Nullable;
 
 public final class WeaponStats {
     public enum WeaponType {
@@ -24,12 +25,11 @@ public final class WeaponStats {
 
     public record WeaponProfile(
             WeaponType type,
-            RangedActionModel rangedActionModel,
+            @Nullable RangedActionModel rangedActionModel,
             int defaultUseTicks,
             int readyDelayTicks,
             int meleeSwingBaseTicks,
-            float projectileVelocity
-    ) {
+            float projectileVelocity) {
     }
 
     private static final WeaponProfile NONE_PROFILE = new WeaponProfile(WeaponType.NONE, null, 0, 0, 0, 0.0F);
@@ -58,6 +58,7 @@ public final class WeaponStats {
     private WeaponStats() {
     }
 
+    @SuppressWarnings("null")
     public static WeaponType getWeaponType(ItemStack stack) {
         if (stack.isEmpty()) {
             return WeaponType.NONE;
@@ -84,6 +85,7 @@ public final class WeaponStats {
                 : RANGED_RELEASE_PROFILE;
     }
 
+    @Nullable
     public static RangedActionModel rangedActionModel(ItemStack stack) {
         if (getWeaponType(stack) != WeaponType.RANGED) {
             return null;
@@ -93,11 +95,11 @@ public final class WeaponStats {
                 : RangedActionModel.RELEASE_USE;
     }
 
-    public static boolean isBowWeapon(ItemStack stack) {
+    public static boolean isReleaseUseRangedWeapon(ItemStack stack) {
         return rangedActionModel(stack) == RangedActionModel.RELEASE_USE;
     }
 
-    public static boolean isCrossbowWeapon(ItemStack stack) {
+    public static boolean isChargeUseRangedWeapon(ItemStack stack) {
         return rangedActionModel(stack) == RangedActionModel.CHARGE_THEN_USE;
     }
 
@@ -113,6 +115,7 @@ public final class WeaponStats {
         return getWeaponType(stack) == WeaponType.MELEE;
     }
 
+    @SuppressWarnings("null")
     public static boolean isArrow(ItemStack stack) {
         return stack.is(ItemTags.ARROWS);
     }
@@ -133,6 +136,7 @@ public final class WeaponStats {
         return getWeaponProfile(stack).projectileVelocity();
     }
 
+    @SuppressWarnings("null")
     public static int chargeDuration(ItemStack stack, net.minecraft.world.entity.LivingEntity shooter) {
         if (stack.getItem() instanceof CrossbowItem) {
             return CrossbowItem.getChargeDuration(stack, shooter);
@@ -153,7 +157,8 @@ public final class WeaponStats {
     }
 
     public static double getMeleeReach(ItemStack stack) {
-        // Vanilla baseline interaction reach is 3 blocks; weapon modifiers can extend this.
+        // Vanilla baseline interaction reach is 3 blocks; weapon modifiers can extend
+        // this.
         return computeAttributeValue(stack, Attributes.ENTITY_INTERACTION_RANGE, 3.0D);
     }
 

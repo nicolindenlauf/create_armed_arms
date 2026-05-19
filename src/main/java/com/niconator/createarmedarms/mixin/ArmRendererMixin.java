@@ -61,8 +61,8 @@ public class ArmRendererMixin {
             return;
         }
 
-        float drawProgress = createArmedArms$drawProgress(state);
-        if (drawProgress <= 0.0F) {
+        float useProgress = createArmedArms$useProgress(state);
+        if (useProgress <= 0.0F) {
             return;
         }
 
@@ -75,7 +75,7 @@ public class ArmRendererMixin {
             createArmedArms$useEntity = new ArmedArmClientUseEntity(level);
         }
 
-        createArmedArms$useEntity.configure(stack, drawProgress);
+        createArmedArms$useEntity.configure(stack, useProgress);
         args.set(2, (LivingEntity) createArmedArms$useEntity);
     }
 
@@ -121,7 +121,7 @@ public class ArmRendererMixin {
     }
 
     @Unique
-    private float createArmedArms$drawProgress(ArmedArmState state) {
+    private float createArmedArms$useProgress(ArmedArmState state) {
         int maxDrawTicks = state.createArmedArms$getMaxDrawTicks();
         if (maxDrawTicks <= 0) {
             return 0.0F;
@@ -143,13 +143,13 @@ public class ArmRendererMixin {
             return;
         }
 
-        float drawProgress = createArmedArms$drawProgress(state);
-        if (drawProgress <= 0.0F) {
+        float useProgress = createArmedArms$useProgress(state);
+        if (useProgress <= 0.0F) {
             return;
         }
 
-        poseStack.translate(0.0D, -0.03D * drawProgress, -0.12D * drawProgress);
-        poseStack.mulPose(Axis.ZP.rotationDegrees(-7.0F * drawProgress));
+        poseStack.translate(0.0D, -0.03D * useProgress, -0.12D * useProgress);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(-7.0F * useProgress));
     }
 
     @Unique

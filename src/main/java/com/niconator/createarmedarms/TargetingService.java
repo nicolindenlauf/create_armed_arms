@@ -10,17 +10,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
 public final class TargetingService {
     private static final double MOB_ARC_COMPENSATION = 0.2D;
-    private static final float MOB_RANGED_VELOCITY = 1.6F;
+    private static final float REFERENCE_PROJECTILE_VELOCITY = 1.6F;
     private static final double PROJECTILE_LAUNCH_OFFSET = 1.0D;
 
     private TargetingService() {
     }
 
+    @Nullable
     public static LivingEntity findTarget(Level level, BlockPos pos, double range, double minRangeSqr) {
         Vec3 origin = turretOrigin(pos);
         AABB area = new AABB(pos).inflate(range);
@@ -64,7 +66,8 @@ public final class TargetingService {
         Vec3 targetBase = new Vec3(target.getX(), target.getY(1.0D / 3.0D), target.getZ());
         Vec3 origin = turretOrigin(armPos);
         double horizontalDistance = targetBase.subtract(origin).multiply(1.0D, 0.0D, 1.0D).length();
-        double compensation = MOB_ARC_COMPENSATION * Math.pow(MOB_RANGED_VELOCITY / WeaponStats.projectileVelocity(weapon), 2.0D);
+        double compensation = MOB_ARC_COMPENSATION
+                * Math.pow(REFERENCE_PROJECTILE_VELOCITY / WeaponStats.projectileVelocity(weapon), 2.0D);
         return targetBase.add(0.0D, horizontalDistance * compensation, 0.0D);
     }
 
